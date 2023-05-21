@@ -1,5 +1,6 @@
 package com.jenrychoque.todosimple.exception;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -11,6 +12,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @RequiredArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)//Só inclui na requisição oque não for null
 public class ErrorResponse {
 
     private final int status;

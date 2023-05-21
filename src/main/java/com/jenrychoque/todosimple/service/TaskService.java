@@ -3,6 +3,7 @@ package com.jenrychoque.todosimple.service;
 import com.jenrychoque.todosimple.model.Task;
 import com.jenrychoque.todosimple.model.User;
 import com.jenrychoque.todosimple.repository.TaskRepository;
+import com.jenrychoque.todosimple.service.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +22,7 @@ public class TaskService {
 
     public Task findById(Long id){
         Optional<Task> task = this.taskRepository.findById(id);
-        return task.orElseThrow(() -> new RuntimeException(
+        return task.orElseThrow(() -> new ObjectNotFoundException(
                 "Tarefa não encontrada! Id: "+ id + ", Tipo: " + Task.class.getName()));
 
     }

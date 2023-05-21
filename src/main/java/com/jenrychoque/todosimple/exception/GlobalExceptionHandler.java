@@ -1,5 +1,7 @@
 package com.jenrychoque.todosimple.exception;
 
+import com.jenrychoque.todosimple.service.exceptions.DataBindingViolationException;
+import com.jenrychoque.todosimple.service.exceptions.ObjectNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -92,6 +94,31 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 HttpStatus.UNPROCESSABLE_ENTITY,
                 request);
     }
+
+    @ExceptionHandler(ObjectNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<Object> handleObjectNotFoundException(
+            ObjectNotFoundException objectNotFoundException,
+            WebRequest request) {
+        log.error("Failed to find the requested element", objectNotFoundException);
+        return buildErrorResponse(
+                objectNotFoundException,
+                HttpStatus.NOT_FOUND,
+                request);
+    }
+
+    @ExceptionHandler(DataBindingViolationException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ResponseEntity<Object> handleDataBindingViolationException(
+            DataBindingViolationException dataBindingViolationException,
+            WebRequest request) {
+        log.error("Failed to save entity with associated data", dataBindingViolationException);
+        return buildErrorResponse(
+                dataBindingViolationException,
+                HttpStatus.CONFLICT,
+                request);
+    }
+
 
     private ResponseEntity<Object> buildErrorResponse(
             Exception exception,
